@@ -1,5 +1,12 @@
 
-func build(_ mnemonic: String, _ srcA: String?, _ srcB: String?, _ dest: String?, _ imm: String?) -> [Int] {
+typealias BuildArgs = (dest: String?, srcA: String?, srcB: String?, imm: String?)
+
+func build(_ mnemonic: String, _ buildArgs: BuildArgs) -> [Int] {
+    
+    let dest = buildArgs.dest
+    let srcA = buildArgs.srcA
+    let srcB = buildArgs.srcB
+    let imm = buildArgs.imm
     
     /// The `opcodeIndex` is the number of the opcode, from `0` for the first and up to (potentially) `127` for the last.
     guard let opcodeIndex = ISA.opcode(mnemonic) else {
