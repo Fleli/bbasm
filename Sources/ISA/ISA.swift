@@ -21,3 +21,12 @@ struct ISA {
     
     
 }
+
+
+extension String {
+    
+    /// Represents an unresolved address. Used as a placeholder for a label whose address will be resolved later.
+    /// `5678` is chosen because it should be overwritten later, but it stands out if that does _not_ happen (in which case the Assembler contains a bug).
+    static let unresolved = "5678"
+    
+}

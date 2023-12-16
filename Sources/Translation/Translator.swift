@@ -24,7 +24,7 @@ class Translator {
             register(label)
             
             for instruction in label.instructions {
-                finalBuild += translate(instruction, &labelIndexRequests)
+                finalBuild += translate(instruction, finalBuild)
             }
             
         }
@@ -59,6 +59,11 @@ class Translator {
         /// We store the starting index of the current label, so it's ready for the second pass.
         labelIndices[name] = index
         
+    }
+    
+    
+    func requestIndex(for label: String, at location: Int) {
+        labelIndexRequests[location] = label
     }
     
     
