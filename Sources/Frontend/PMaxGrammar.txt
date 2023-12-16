@@ -22,9 +22,9 @@ ArgRegReg -> #register #, #register
 ArgReg -> #register 
 ArgLabel -> #identifier 
 ArgRegLabel -> #register #, #identifier 
-Labels -> Labels Label
-Labels -> Label
-Labels ->
 Instructions -> Instructions Instruction
 Instructions -> Instruction
 Instructions ->
+Labels -> Labels Label
+Labels -> Label
+Labels ->
