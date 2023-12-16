@@ -5,16 +5,16 @@
 
 public class Label: CustomStringConvertible {
 	
-	let name: String
+	let label: String
 	let instructions: Instructions
 	
-	init(_ name: String, _ instructions: Instructions) {
-		self.name = name
+	init(_ label: String, _ instructions: Instructions) {
+		self.label = label
 		self.instructions = instructions
 	}
 
 	public var description: String {
-		"@ " + name.description + " " + ": " + instructions.description + " "
+		label.description + " " + ": " + instructions.description + " "
 	}
 	
 }

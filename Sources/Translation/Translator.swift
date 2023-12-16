@@ -53,7 +53,7 @@ class Translator {
     private func register(_ label: Label) {
         
         /// The name of the label
-        let name = label.name
+        let name = label.label
         
         /// The index corresponding to the start of the label.
         /// If `n` instructions are already built, this label's instructions will begin at index `n`.

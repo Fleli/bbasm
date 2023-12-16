@@ -18,7 +18,7 @@ extension Translator {
         
         switch mnemonic {
             
-        case "ldio":
+        case "ldio", "addi":
             return (ra, rb, nil, imm)
         default:
             fatalError("No such 'RRI' instruction: '\(mnemonic)' (args \(ra), \(rb), \(imm)).")
