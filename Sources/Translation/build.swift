@@ -38,9 +38,12 @@ func build(_ mnemonic: String, _ srcA: String?, _ srcB: String?, _ dest: String?
 func regIndex(_ r: String?) -> Int {
     
     guard let last = r?.last, let index = Int("\(last)") else {
-        // If `r` is nil, we just return 0.
+        // If `r` is nil, we just return 0 (as a convention).
         return 0
     }
+    
+    // TODO: Remove this assertion later.
+    assert(0 <= index && index <= 7)
     
     return index
     
