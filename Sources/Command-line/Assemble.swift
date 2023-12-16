@@ -6,19 +6,22 @@ struct Assemble: ParsableCommand {
     
     
     @ArgumentParser.Argument(help: "The .bba file's path.")
-    var path: String
+    var srcPath: String
+    
+    @ArgumentParser.Argument(help: "The machine code path.")
+    var destPath: String
     
     
     func run() throws {
         
-        print("Assembling, path = {\(path)}")
+        print("Assembling, path = {\(srcPath)}")
         
-        let assembly = try String(contentsOfFile: path)
+        let assembly = try String(contentsOfFile: srcPath)
         print("Assembly:")
         print(assembly)
         
         let assembler = Assembler()
-        try assembler.assemble(assembly)
+        try assembler.assemble(assembly, destPath)
         
     }
     

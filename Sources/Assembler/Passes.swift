@@ -1,4 +1,6 @@
 
+import Foundation
+
 extension Assembler {
     
     
@@ -38,6 +40,18 @@ extension Assembler {
         print(code)
         
         return code
+        
+    }
+    
+    
+    func writeResult(_ code: [Int], _ destPath: String) {
+        
+        let fileManager = Foundation.FileManager()
+        
+        let string = code.reduce("") { $0 + "\($1)\n" }
+        let data = string.data(using: .utf8)
+        
+        fileManager.createFile(atPath: destPath, contents: data)
         
     }
     
