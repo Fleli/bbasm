@@ -32,7 +32,16 @@ class Translator {
         // --- SECOND PASS ---
         // Resolve label references: Insert correct jump addresses etc.
         
-        
+        for (index, label) in labelIndexRequests {
+            
+            guard let labelIndex = labelIndices[label] else {
+                // TODO: Don't use a fatalError here.
+                fatalError("Label '\(label)' was referred to, but does not exist.")
+            }
+            
+            finalBuild[index] = labelIndex
+            
+        }
         
         // --- RETURN ---
         
