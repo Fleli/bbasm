@@ -30,10 +30,14 @@ extension Assembler {
     }
     
     
-    func concatenate(_ labels: Labels) {
+    func translate(_ labels: Labels) -> [Int] {
         
         let translator = Translator()
+        let code = translator.translate(labels)
         
+        print(code)
+        
+        return code
         
     }
     

@@ -6,6 +6,7 @@ class Assembler {
         
         let tokens = try lex(assembly)
         let labels = try parse(tokens)
+        let code = translate(labels)
         
     }
     

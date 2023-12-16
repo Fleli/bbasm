@@ -2,7 +2,8 @@
 struct ISA {
     
     
-    static let mapping: [String] = ["nop", "mv", "li", "ldraw", "ldind", "ldio", "stio", "add", "sub", "neg", "xor", "nand", "and", "or", "not"]
+    static let mapping: [String] = ["nop", "mv", "li", "ldraw", "ldind", "ldio", "stio", "add", "sub", "neg", "xor", "nand", "and", "or", "not", "j", "jnz", "jimm"]
+    
     
     
     static func opcode(_ mnemonic: String) -> Int? {
