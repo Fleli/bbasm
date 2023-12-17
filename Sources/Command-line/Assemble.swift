@@ -14,12 +14,7 @@ struct Assemble: ParsableCommand {
     
     func run() throws {
         
-        print("Assembling, path = {\(srcPath)}")
-        
         let assembly = try String(contentsOfFile: srcPath)
-        print("Assembly:")
-        print(assembly)
-        
         let assembler = Assembler()
         try assembler.assemble(assembly, destPath)
         

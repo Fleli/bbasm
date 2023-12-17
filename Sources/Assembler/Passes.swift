@@ -9,8 +9,6 @@ extension Assembler {
         let lexer = Lexer()
         let tokens = try lexer.lex(assembly).filter { $0.type != "newline" && $0.type != "comment" }
         
-        tokens.forEach { print($0) }
-        
         return tokens
         
     }
@@ -20,8 +18,6 @@ extension Assembler {
         
         let parser = SLRParser()
         let tree = try parser.parse(tokens)
-        
-        tree?.printFullDescription(0)
         
         guard let converted = tree?.convertToLabels() else {
             fatalError("Conversion from raw `SLRNode` tree to `Labels` should not fail.")
@@ -36,8 +32,6 @@ extension Assembler {
         
         let translator = Translator()
         let code = translator.translate(labels)
-        
-        print(code)
         
         return code
         

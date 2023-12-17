@@ -10,7 +10,8 @@ class Translator {
     private var labelIndexRequests: [Int : String] = [:]
     
     /// The `finalBuild` represents the final list of instructions.
-    private var finalBuild: [Int] = []
+    /// The first 2048 addresses are reserved for heap, "magic" variables, etc.
+    private var finalBuild = [Int](repeating: 0, count: 2048)
     
     
     /// Convert a list of `Label` objects to a well-defined executable array of `Int`s.
