@@ -13,6 +13,7 @@ public enum Args: CustomStringConvertible {
 	case argLabel(ArgLabel)
 	case argRegLabel(ArgRegLabel)
 	case argReg(ArgReg)
+	case argLabelLabel(ArgLabelLabel)
 	
 	public var description: String {
 		switch self {
@@ -24,6 +25,7 @@ public enum Args: CustomStringConvertible {
 		case .argLabel(let argLabel): return argLabel.description
 		case .argRegLabel(let argRegLabel): return argRegLabel.description
 		case .argReg(let argReg): return argReg.description
+		case .argLabelLabel(let argLabelLabel): return argLabelLabel.description
 		}
 	}
 	

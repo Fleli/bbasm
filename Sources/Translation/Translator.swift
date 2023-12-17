@@ -25,7 +25,7 @@ class Translator {
             register(label)
             
             for instruction in label.instructions {
-                finalBuild += translate(instruction, finalBuild)
+                translate(instruction, &finalBuild)
             }
             
         }
@@ -53,7 +53,7 @@ class Translator {
         
         // --- RETURN ADDRESS FOR MAIN ---
         
-        finalBuild[finalBuild.count - 2] = 10
+        finalBuild[finalBuild.count - 1] = 10
         
         // --- RETURN ---
         
@@ -79,6 +79,8 @@ class Translator {
         
         /// We store the starting index of the current label, so it's ready for the second pass.
         labelIndices[name] = index
+        
+        print("Label \(name)\t\t\(index)")
         
     }
     

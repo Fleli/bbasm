@@ -5,31 +5,6 @@
 
 public extension SLRNode {
     
-    func convertToInstructions() -> Instructions {
-        
-        if children.count == 0 {
-            return []
-        }
-        
-        if children.count == 1 {
-            return [children[0].convertToInstruction()]
-        }
-        
-        if children.count == 2 {
-            return children[0].convertToInstructions() + [children[1].convertToInstruction()]
-        }
-        
-        if children.count == 3 {
-            return children[0].convertToInstructions() + [children[2].convertToInstruction()]
-        }
-        
-        fatalError()
-        
-    }
-    
-}
-public extension SLRNode {
-    
     func convertToLabels() -> Labels {
         
         if children.count == 0 {
@@ -46,6 +21,31 @@ public extension SLRNode {
         
         if children.count == 3 {
             return children[0].convertToLabels() + [children[2].convertToLabel()]
+        }
+        
+        fatalError()
+        
+    }
+    
+}
+public extension SLRNode {
+    
+    func convertToInstructions() -> Instructions {
+        
+        if children.count == 0 {
+            return []
+        }
+        
+        if children.count == 1 {
+            return [children[0].convertToInstruction()]
+        }
+        
+        if children.count == 2 {
+            return children[0].convertToInstructions() + [children[1].convertToInstruction()]
+        }
+        
+        if children.count == 3 {
+            return children[0].convertToInstructions() + [children[2].convertToInstruction()]
         }
         
         fatalError()
@@ -127,6 +127,11 @@ public extension SLRNode {
         if type == "Args" && children[0].type == "ArgReg" {
             let nonTerminalNode = children[0].convertToArgReg()
             return Args.argReg(nonTerminalNode)
+        }
+	
+        if type == "Args" && children[0].type == "ArgLabelLabel" {
+            let nonTerminalNode = children[0].convertToArgLabelLabel()
+            return Args.argLabelLabel(nonTerminalNode)
         }
 	
         fatalError()
@@ -253,6 +258,22 @@ public extension SLRNode {
 	func convertToArgRegLabel() -> ArgRegLabel {
 		
 		if type == "ArgRegLabel" && children.count == 3 && children[0].type == "register" && children[1].type == "," && children[2].type == "label" {
+			let arg0 = children[0].convertToTerminal()
+			let arg2 = children[2].convertToTerminal()
+			return .init(arg0, arg2)
+		}
+		
+		fatalError()
+		
+	}
+
+}
+
+public extension SLRNode {
+
+	func convertToArgLabelLabel() -> ArgLabelLabel {
+		
+		if type == "ArgLabelLabel" && children.count == 3 && children[0].type == "label" && children[1].type == "," && children[2].type == "label" {
 			let arg0 = children[0].convertToTerminal()
 			let arg2 = children[2].convertToTerminal()
 			return .init(arg0, arg2)

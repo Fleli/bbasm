@@ -1,7 +1,8 @@
 
 extension Translator {
     
-    func translate(_ instruction: Instruction, _ finalBuild: [Int]) -> [Int] {
+    
+    func translate(_ instruction: Instruction, _ finalBuild: inout [Int]) {
         
         let mnemonic = instruction.opcode
         
@@ -11,6 +12,8 @@ extension Translator {
         let labelAddressRequestLocation = finalBuild.count + 1
         
         var buildArgs: BuildArgs = (nil, nil, nil, nil)
+        
+        var realInstruction = true
         
         switch instruction.args {
         case .argRegRegReg(let a):
@@ -29,9 +32,55 @@ extension Translator {
             buildArgs = RL(mnemonic, a.reg, a.label, labelAddressRequestLocation)
         case .argReg(let a):
             buildArgs = R(mnemonic, a.reg)
+        case .argLabelLabel(let a):
+            realInstruction = false
+            resolveCall(mnemonic, a, &finalBuild)
         }
         
-        return build(mnemonic, buildArgs)
+        if realInstruction {
+            finalBuild += build(mnemonic, buildArgs)
+        }
+        
+    }
+    
+    
+    private func resolveCall(_ mnemonic: String, _ a: ArgLabelLabel, _ finalBuild: inout [Int]) {
+        
+        // No other such instructions than `call` exist.
+        guard mnemonic == "call" else {
+            fatalError("Unrecognized instruction \(mnemonic).")
+        }
+        
+        requestAndInsertReturnAddress(a.ret, &finalBuild)
+        requestAndInsertJumpToEntry(a.callee, &finalBuild)
+        
+    }
+    
+    
+    private func requestAndInsertReturnAddress(_ returnLabel: String, _ finalBuild: inout [Int]) {
+        
+        // Create an `li` instruction. Request the address of the return label (in pass 2)
+        let li = Instruction("li", .argRegImm(ArgRegImm("r0", .unresolved)))
+        translate(li, &finalBuild)
+        requestIndex(for: returnLabel, at: finalBuild.count - 1)
+        
+        // Then store this number at fp - 1
+        let stio = Instruction("stio", .argRegImmReg(ArgRegImmReg("r7", "-1", "r0")))
+        translate(stio, &finalBuild)
+        
+    }
+    
+    
+    private func requestAndInsertJumpToEntry(_ entryLabel: String, _ finalBuild: inout [Int]) {
+        
+        // Load the address of the function's entry label. Request this address from the translator.
+        let li = Instruction("li", .argRegImm(ArgRegImm("r0", .unresolved)))
+        translate(li, &finalBuild)
+        requestIndex(for: entryLabel, at: finalBuild.count - 1)
+        
+        // Then jump to this address
+        let j = Instruction("j", .argReg(ArgReg("r0")))
+        translate(j, &finalBuild)
         
     }
     

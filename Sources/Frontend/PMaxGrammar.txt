@@ -14,6 +14,7 @@ Args -> ArgRegReg
 Args -> ArgLabel
 Args -> ArgRegLabel
 Args -> ArgReg
+Args -> ArgLabelLabel
 ArgRegRegReg -> #register #, #register #, #register 
 ArgRegRegImm -> #register #, #register #, #literal 
 ArgRegImmReg -> #register #, #literal #, #register 
@@ -22,9 +23,10 @@ ArgRegReg -> #register #, #register
 ArgReg -> #register 
 ArgLabel -> #label 
 ArgRegLabel -> #register #, #label 
-Instructions -> Instructions Instruction
-Instructions -> Instruction
-Instructions ->
+ArgLabelLabel -> #label #, #label 
 Labels -> Labels Label
 Labels -> Label
 Labels ->
+Instructions -> Instructions Instruction
+Instructions -> Instruction
+Instructions ->

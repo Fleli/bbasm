@@ -97,13 +97,13 @@ class SLRParser {
 
 	private func state_0() throws {
 
-        if topOfStackIsNonTerminal("Labels") {
-            pushState(state_2)
+        if topOfStackIsNonTerminal("Label") {
+            pushState(state_1)
             return
         }
         
-        if topOfStackIsNonTerminal("Label") {
-            pushState(state_1)
+        if topOfStackIsNonTerminal("Labels") {
+            pushState(state_2)
             return
         }
         
@@ -114,15 +114,15 @@ class SLRParser {
         }
         
         
-        if topOfStackIsAmong([Optional("label"), nil]) {
+        if topOfStackIsAmong([nil, Optional("label")]) {
             reduce(0, to: "Labels")
             return
         }
         
         if index < input.count {
-            throw ParseError.unexpected("Labels", input[index].content, "Label")
+            throw ParseError.unexpected("SwiftSLRMain", input[index].content, "Labels")
         } else {
-            throw ParseError.abruptEnd("Labels", "Label")
+            throw ParseError.abruptEnd("SwiftSLRMain", "Labels")
         }
         
 	}
@@ -130,7 +130,7 @@ class SLRParser {
 	private func state_1() throws {
 
         
-        if topOfStackIsAmong([Optional("label"), nil]) {
+        if topOfStackIsAmong([nil, Optional("label")]) {
             reduce(1, to: "Labels")
             return
         }
@@ -164,9 +164,9 @@ class SLRParser {
         }
         
         if index < input.count {
-            throw ParseError.unexpected("Labels", input[index].content, "Label")
+            throw ParseError.unexpected("Label", input[index].content, "label")
         } else {
-            throw ParseError.abruptEnd("Labels", "Label")
+            throw ParseError.abruptEnd("Label", "label")
         }
         
 	}
@@ -174,7 +174,7 @@ class SLRParser {
 	private func state_3() throws {
 
         
-        if topOfStackIsAmong([Optional("label"), nil]) {
+        if topOfStackIsAmong([nil, Optional("label")]) {
             reduce(2, to: "Labels")
             return
         }
@@ -205,19 +205,19 @@ class SLRParser {
 	
 	private func state_5() throws {
 
-        if topOfStackIsNonTerminal("Instruction") {
+        if topOfStackIsNonTerminal("Instructions") {
             pushState(state_6)
             return
         }
         
-        if topOfStackIsNonTerminal("Instructions") {
-            pushState(state_7)
+        if topOfStackIsNonTerminal("Instruction") {
+            pushState(state_32)
             return
         }
         
         if topOfStackIsToken("identifier") {
             shift()
-            pushState(state_9)
+            pushState(state_8)
             return
         }
         
@@ -228,39 +228,23 @@ class SLRParser {
         }
         
         if index < input.count {
-            throw ParseError.unexpected("Instruction", input[index].content, "identifier")
+            throw ParseError.unexpected("Label", input[index].content, "Instructions")
         } else {
-            throw ParseError.abruptEnd("Instruction", "identifier")
+            throw ParseError.abruptEnd("Label", "Instructions")
         }
         
 	}
 	
 	private func state_6() throws {
 
-        
-        if topOfStackIsAmong([Optional("identifier"), nil, Optional("label")]) {
-            reduce(1, to: "Instructions")
-            return
-        }
-        
-        if index < input.count {
-            throw ParseError.unexpected("Instructions", input[index].content, "reduction")
-        } else {
-            throw ParseError.abruptEnd("Instructions", "reduction")
-        }
-        
-	}
-	
-	private func state_7() throws {
-
         if topOfStackIsNonTerminal("Instruction") {
-            pushState(state_8)
+            pushState(state_7)
             return
         }
         
         if topOfStackIsToken("identifier") {
             shift()
-            pushState(state_9)
+            pushState(state_8)
             return
         }
         
@@ -271,14 +255,14 @@ class SLRParser {
         }
         
         if index < input.count {
-            throw ParseError.unexpected("Instructions", input[index].content, "Instruction")
+            throw ParseError.unexpected("Label", input[index].content, "reduction")
         } else {
-            throw ParseError.abruptEnd("Instructions", "Instruction")
+            throw ParseError.abruptEnd("Label", "reduction")
         }
         
 	}
 	
-	private func state_8() throws {
+	private func state_7() throws {
 
         
         if topOfStackIsAmong([Optional("identifier"), nil, Optional("label")]) {
@@ -294,69 +278,90 @@ class SLRParser {
         
 	}
 	
-	private func state_9() throws {
+	private func state_8() throws {
 
-        if topOfStackIsNonTerminal("ArgRegRegImm") {
-            pushState(state_11)
-            return
-        }
-        
         if topOfStackIsNonTerminal("ArgRegLabel") {
-            pushState(state_10)
-            return
-        }
-        
-        if topOfStackIsNonTerminal("ArgRegRegReg") {
-            pushState(state_16)
+            pushState(state_9)
             return
         }
         
         if topOfStackIsNonTerminal("ArgRegImmReg") {
-            pushState(state_13)
-            return
-        }
-        
-        if topOfStackIsNonTerminal("Args") {
-            pushState(state_17)
-            return
-        }
-        
-        if topOfStackIsNonTerminal("ArgLabel") {
-            pushState(state_12)
-            return
-        }
-        
-        if topOfStackIsNonTerminal("ArgRegReg") {
-            pushState(state_18)
-            return
-        }
-        
-        if topOfStackIsNonTerminal("ArgReg") {
             pushState(state_15)
             return
         }
         
+        if topOfStackIsNonTerminal("ArgRegRegReg") {
+            pushState(state_17)
+            return
+        }
+        
+        if topOfStackIsNonTerminal("Args") {
+            pushState(state_12)
+            return
+        }
+        
+        if topOfStackIsNonTerminal("ArgLabel") {
+            pushState(state_13)
+            return
+        }
+        
+        if topOfStackIsNonTerminal("ArgRegRegImm") {
+            pushState(state_10)
+            return
+        }
+        
         if topOfStackIsNonTerminal("ArgRegImm") {
+            pushState(state_11)
+            return
+        }
+        
+        if topOfStackIsNonTerminal("ArgReg") {
+            pushState(state_18)
+            return
+        }
+        
+        if topOfStackIsNonTerminal("ArgRegReg") {
             pushState(state_14)
+            return
+        }
+        
+        if topOfStackIsNonTerminal("ArgLabelLabel") {
+            pushState(state_16)
             return
         }
         
         if topOfStackIsToken("register") {
             shift()
-            pushState(state_20)
+            pushState(state_19)
             return
         }
         
         if topOfStackIsToken("label") {
             shift()
-            pushState(state_19)
+            pushState(state_29)
             return
         }
         
         if index < input.count {
-            throw ParseError.unexpected("ArgRegImmReg", input[index].content, "register")
+            throw ParseError.unexpected("ArgRegLabel", input[index].content, "register")
         } else {
-            throw ParseError.abruptEnd("ArgRegImmReg", "register")
+            throw ParseError.abruptEnd("ArgRegLabel", "register")
+        }
+        
+	}
+	
+	private func state_9() throws {
+
+        
+        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
+            reduce(1, to: "Args")
+            return
+        }
+        
+        if index < input.count {
+            throw ParseError.unexpected("Args", input[index].content, "reduction")
+        } else {
+            throw ParseError.abruptEnd("Args", "reduction")
         }
         
 	}
@@ -364,7 +369,7 @@ class SLRParser {
 	private func state_10() throws {
 
         
-        if topOfStackIsAmong([Optional("identifier"), Optional("label"), nil]) {
+        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
             reduce(1, to: "Args")
             return
         }
@@ -380,7 +385,7 @@ class SLRParser {
 	private func state_11() throws {
 
         
-        if topOfStackIsAmong([Optional("identifier"), Optional("label"), nil]) {
+        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
             reduce(1, to: "Args")
             return
         }
@@ -396,15 +401,15 @@ class SLRParser {
 	private func state_12() throws {
 
         
-        if topOfStackIsAmong([Optional("identifier"), Optional("label"), nil]) {
-            reduce(1, to: "Args")
+        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
+            reduce(2, to: "Instruction")
             return
         }
         
         if index < input.count {
-            throw ParseError.unexpected("Args", input[index].content, "reduction")
+            throw ParseError.unexpected("Instruction", input[index].content, "reduction")
         } else {
-            throw ParseError.abruptEnd("Args", "reduction")
+            throw ParseError.abruptEnd("Instruction", "reduction")
         }
         
 	}
@@ -412,7 +417,7 @@ class SLRParser {
 	private func state_13() throws {
 
         
-        if topOfStackIsAmong([Optional("identifier"), Optional("label"), nil]) {
+        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
             reduce(1, to: "Args")
             return
         }
@@ -428,7 +433,7 @@ class SLRParser {
 	private func state_14() throws {
 
         
-        if topOfStackIsAmong([Optional("identifier"), Optional("label"), nil]) {
+        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
             reduce(1, to: "Args")
             return
         }
@@ -444,7 +449,7 @@ class SLRParser {
 	private func state_15() throws {
 
         
-        if topOfStackIsAmong([Optional("identifier"), Optional("label"), nil]) {
+        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
             reduce(1, to: "Args")
             return
         }
@@ -460,7 +465,7 @@ class SLRParser {
 	private func state_16() throws {
 
         
-        if topOfStackIsAmong([Optional("identifier"), Optional("label"), nil]) {
+        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
             reduce(1, to: "Args")
             return
         }
@@ -476,15 +481,15 @@ class SLRParser {
 	private func state_17() throws {
 
         
-        if topOfStackIsAmong([Optional("label"), nil, Optional("identifier")]) {
-            reduce(2, to: "Instruction")
+        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
+            reduce(1, to: "Args")
             return
         }
         
         if index < input.count {
-            throw ParseError.unexpected("Instruction", input[index].content, "reduction")
+            throw ParseError.unexpected("Args", input[index].content, "reduction")
         } else {
-            throw ParseError.abruptEnd("Instruction", "reduction")
+            throw ParseError.abruptEnd("Args", "reduction")
         }
         
 	}
@@ -492,7 +497,7 @@ class SLRParser {
 	private func state_18() throws {
 
         
-        if topOfStackIsAmong([Optional("identifier"), Optional("label"), nil]) {
+        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
             reduce(1, to: "Args")
             return
         }
@@ -507,25 +512,9 @@ class SLRParser {
 	
 	private func state_19() throws {
 
-        
-        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
-            reduce(1, to: "ArgLabel")
-            return
-        }
-        
-        if index < input.count {
-            throw ParseError.unexpected("ArgLabel", input[index].content, "reduction")
-        } else {
-            throw ParseError.abruptEnd("ArgLabel", "reduction")
-        }
-        
-	}
-	
-	private func state_20() throws {
-
         if topOfStackIsToken(",") {
             shift()
-            pushState(state_21)
+            pushState(state_20)
             return
         }
         
@@ -536,74 +525,74 @@ class SLRParser {
         }
         
         if index < input.count {
-            throw ParseError.unexpected("ArgRegImmReg", input[index].content, ",")
+            throw ParseError.unexpected("ArgRegReg", input[index].content, ",")
         } else {
-            throw ParseError.abruptEnd("ArgRegImmReg", ",")
+            throw ParseError.abruptEnd("ArgRegReg", ",")
+        }
+        
+	}
+	
+	private func state_20() throws {
+
+        if topOfStackIsToken("literal") {
+            shift()
+            pushState(state_25)
+            return
+        }
+        
+        if topOfStackIsToken("register") {
+            shift()
+            pushState(state_21)
+            return
+        }
+        
+        if topOfStackIsToken("label") {
+            shift()
+            pushState(state_28)
+            return
+        }
+        
+        if index < input.count {
+            throw ParseError.unexpected("ArgRegRegImm", input[index].content, "register")
+        } else {
+            throw ParseError.abruptEnd("ArgRegRegImm", "register")
         }
         
 	}
 	
 	private func state_21() throws {
 
-        if topOfStackIsToken("register") {
+        if topOfStackIsToken(",") {
             shift()
             pushState(state_22)
             return
         }
         
-        if topOfStackIsToken("literal") {
-            shift()
-            pushState(state_27)
-            return
-        }
         
-        if topOfStackIsToken("label") {
-            shift()
-            pushState(state_26)
+        if topOfStackIsAmong([nil, Optional("label"), Optional("identifier")]) {
+            reduce(3, to: "ArgRegReg")
             return
         }
         
         if index < input.count {
-            throw ParseError.unexpected("ArgRegLabel", input[index].content, "label")
+            throw ParseError.unexpected("ArgRegRegReg", input[index].content, ",")
         } else {
-            throw ParseError.abruptEnd("ArgRegLabel", "label")
+            throw ParseError.abruptEnd("ArgRegRegReg", ",")
         }
         
 	}
 	
 	private func state_22() throws {
 
-        if topOfStackIsToken(",") {
+        if topOfStackIsToken("register") {
             shift()
             pushState(state_23)
             return
         }
         
-        
-        if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
-            reduce(3, to: "ArgRegReg")
-            return
-        }
-        
-        if index < input.count {
-            throw ParseError.unexpected("ArgRegReg", input[index].content, "reduction")
-        } else {
-            throw ParseError.abruptEnd("ArgRegReg", "reduction")
-        }
-        
-	}
-	
-	private func state_23() throws {
-
-        if topOfStackIsToken("register") {
-            shift()
-            pushState(state_24)
-            return
-        }
-        
         if topOfStackIsToken("literal") {
             shift()
-            pushState(state_25)
+            pushState(state_24)
             return
         }
         
@@ -615,10 +604,10 @@ class SLRParser {
         
 	}
 	
-	private func state_24() throws {
+	private func state_23() throws {
 
         
-        if topOfStackIsAmong([Optional("label"), nil, Optional("identifier")]) {
+        if topOfStackIsAmong([nil, Optional("label"), Optional("identifier")]) {
             reduce(5, to: "ArgRegRegReg")
             return
         }
@@ -631,10 +620,10 @@ class SLRParser {
         
 	}
 	
-	private func state_25() throws {
+	private func state_24() throws {
 
         
-        if topOfStackIsAmong([Optional("label"), nil, Optional("identifier")]) {
+        if topOfStackIsAmong([Optional("identifier"), Optional("label"), nil]) {
             reduce(5, to: "ArgRegRegImm")
             return
         }
@@ -647,10 +636,64 @@ class SLRParser {
         
 	}
 	
+	private func state_25() throws {
+
+        if topOfStackIsToken(",") {
+            shift()
+            pushState(state_26)
+            return
+        }
+        
+        
+        if topOfStackIsAmong([Optional("identifier"), Optional("label"), nil]) {
+            reduce(3, to: "ArgRegImm")
+            return
+        }
+        
+        if index < input.count {
+            throw ParseError.unexpected("ArgRegImm", input[index].content, "reduction")
+        } else {
+            throw ParseError.abruptEnd("ArgRegImm", "reduction")
+        }
+        
+	}
+	
 	private func state_26() throws {
+
+        if topOfStackIsToken("register") {
+            shift()
+            pushState(state_27)
+            return
+        }
+        
+        if index < input.count {
+            throw ParseError.unexpected("ArgRegImmReg", input[index].content, "register")
+        } else {
+            throw ParseError.abruptEnd("ArgRegImmReg", "register")
+        }
+        
+	}
+	
+	private func state_27() throws {
 
         
         if topOfStackIsAmong([Optional("label"), Optional("identifier"), nil]) {
+            reduce(5, to: "ArgRegImmReg")
+            return
+        }
+        
+        if index < input.count {
+            throw ParseError.unexpected("ArgRegImmReg", input[index].content, "reduction")
+        } else {
+            throw ParseError.abruptEnd("ArgRegImmReg", "reduction")
+        }
+        
+	}
+	
+	private func state_28() throws {
+
+        
+        if topOfStackIsAmong([Optional("label"), nil, Optional("identifier")]) {
             reduce(3, to: "ArgRegLabel")
             return
         }
@@ -663,56 +706,72 @@ class SLRParser {
         
 	}
 	
-	private func state_27() throws {
+	private func state_29() throws {
 
         if topOfStackIsToken(",") {
             shift()
-            pushState(state_28)
+            pushState(state_30)
             return
         }
         
+        
+        if topOfStackIsAmong([nil, Optional("label"), Optional("identifier")]) {
+            reduce(1, to: "ArgLabel")
+            return
+        }
+        
+        if index < input.count {
+            throw ParseError.unexpected("ArgLabel", input[index].content, "reduction")
+        } else {
+            throw ParseError.abruptEnd("ArgLabel", "reduction")
+        }
+        
+	}
+	
+	private func state_30() throws {
+
+        if topOfStackIsToken("label") {
+            shift()
+            pushState(state_31)
+            return
+        }
+        
+        if index < input.count {
+            throw ParseError.unexpected("ArgLabelLabel", input[index].content, "label")
+        } else {
+            throw ParseError.abruptEnd("ArgLabelLabel", "label")
+        }
+        
+	}
+	
+	private func state_31() throws {
+
         
         if topOfStackIsAmong([nil, Optional("identifier"), Optional("label")]) {
-            reduce(3, to: "ArgRegImm")
+            reduce(3, to: "ArgLabelLabel")
             return
         }
         
         if index < input.count {
-            throw ParseError.unexpected("ArgRegImmReg", input[index].content, ",")
+            throw ParseError.unexpected("ArgLabelLabel", input[index].content, "reduction")
         } else {
-            throw ParseError.abruptEnd("ArgRegImmReg", ",")
+            throw ParseError.abruptEnd("ArgLabelLabel", "reduction")
         }
         
 	}
 	
-	private func state_28() throws {
-
-        if topOfStackIsToken("register") {
-            shift()
-            pushState(state_29)
-            return
-        }
-        
-        if index < input.count {
-            throw ParseError.unexpected("ArgRegImmReg", input[index].content, "register")
-        } else {
-            throw ParseError.abruptEnd("ArgRegImmReg", "register")
-        }
-        
-	}
-	
-	private func state_29() throws {
+	private func state_32() throws {
 
         
         if topOfStackIsAmong([Optional("identifier"), nil, Optional("label")]) {
-            reduce(5, to: "ArgRegImmReg")
+            reduce(1, to: "Instructions")
             return
         }
         
         if index < input.count {
-            throw ParseError.unexpected("ArgRegImmReg", input[index].content, "reduction")
+            throw ParseError.unexpected("Instructions", input[index].content, "reduction")
         } else {
-            throw ParseError.abruptEnd("ArgRegImmReg", "reduction")
+            throw ParseError.abruptEnd("Instructions", "reduction")
         }
         
 	}
