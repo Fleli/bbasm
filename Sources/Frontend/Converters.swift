@@ -5,31 +5,6 @@
 
 public extension SLRNode {
     
-    func convertToLabels() -> Labels {
-        
-        if children.count == 0 {
-            return []
-        }
-        
-        if children.count == 1 {
-            return [children[0].convertToLabel()]
-        }
-        
-        if children.count == 2 {
-            return children[0].convertToLabels() + [children[1].convertToLabel()]
-        }
-        
-        if children.count == 3 {
-            return children[0].convertToLabels() + [children[2].convertToLabel()]
-        }
-        
-        fatalError()
-        
-    }
-    
-}
-public extension SLRNode {
-    
     func convertToInstructions() -> Instructions {
         
         if children.count == 0 {
@@ -46,6 +21,31 @@ public extension SLRNode {
         
         if children.count == 3 {
             return children[0].convertToInstructions() + [children[2].convertToInstruction()]
+        }
+        
+        fatalError()
+        
+    }
+    
+}
+public extension SLRNode {
+    
+    func convertToLabels() -> Labels {
+        
+        if children.count == 0 {
+            return []
+        }
+        
+        if children.count == 1 {
+            return [children[0].convertToLabel()]
+        }
+        
+        if children.count == 2 {
+            return children[0].convertToLabels() + [children[1].convertToLabel()]
+        }
+        
+        if children.count == 3 {
+            return children[0].convertToLabels() + [children[2].convertToLabel()]
         }
         
         fatalError()

@@ -43,6 +43,15 @@ class Translator {
             
         }
         
+        // --- PADDING ---
+        
+        let missing = (1 << 15) - finalBuild.count
+        finalBuild += [Int](repeating: 0, count: missing)
+        
+        // --- RETURN ADDRESS FOR MAIN ---
+        
+        finalBuild[finalBuild.count - 2] = 10
+        
         // --- RETURN ---
         
         return finalBuild
