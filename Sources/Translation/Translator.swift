@@ -40,6 +40,8 @@ class Translator {
                 fatalError("Label '\(label)' was referred to, but does not exist.")
             }
             
+            print("Overwriting \(label) at \(index)")
+            
             finalBuild[index] = labelIndex
             
         }
@@ -82,6 +84,7 @@ class Translator {
     
     
     func requestIndex(for label: String, at location: Int) {
+        print("\(label) @ \(location)")
         labelIndexRequests[location] = label
     }
     

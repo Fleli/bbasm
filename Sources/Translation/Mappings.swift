@@ -33,6 +33,8 @@ extension Translator {
             
         case "mv", "not", "neg", "ldind":
             return (ra, rb, nil, nil)
+        case "st":
+            return (nil, ra, rb, nil)
         default:
             fatalError("No such 'RR' instruction: '\(mnemonic)' (args \(ra), \(rb).")
             
