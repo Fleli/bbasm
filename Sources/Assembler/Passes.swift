@@ -31,7 +31,7 @@ extension Assembler {
     func translate(_ labels: Labels) -> [Int] {
         
         let translator = Translator()
-        let code = translator.translate(labels)
+        let code = translator.translate(labels, emitIndices)
         
         return code
         

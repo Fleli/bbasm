@@ -2,6 +2,10 @@
 class Translator {
     
     
+    static let stackStartAddress = 2048
+    static let programStartAddress = 4096
+    
+    
     /// Provides a mapping between labels (as defined by the programmer) and their resulting index in the final list of instructions.
     private var labelIndices: [String : Int] = [:]
     
@@ -11,11 +15,11 @@ class Translator {
     
     /// The `finalBuild` represents the final list of instructions.
     /// The first 2048 addresses are reserved for heap, "magic" variables, etc.
-    private var finalBuild = [Int](repeating: 0, count: 2048)
+    private lazy var finalBuild = [Int](repeating: 0, count: Self.programStartAddress)
     
     
     /// Convert a list of `Label` objects to a well-defined executable array of `Int`s.
-    func translate(_ labels: Labels) -> [Int] {
+    func translate(_ labels: Labels, _ emitIndices: Bool) -> [Int] {
         
         // --- FIRST PASS ---
         // Translate textual statements (assembly code) to corresponding machine code.
@@ -40,8 +44,6 @@ class Translator {
                 fatalError("Label '\(label)' was referred to, but does not exist.")
             }
             
-            print("Overwriting \(label) at \(index)")
-            
             finalBuild[index] = labelIndex
             
         }
@@ -51,9 +53,32 @@ class Translator {
         let missing = (1 << 15) - finalBuild.count
         finalBuild += [Int](repeating: 0, count: missing)
         
-        // --- RETURN ADDRESS FOR MAIN ---
+        // --- SET UP CALLER OF MAIN ---
         
-        finalBuild[finalBuild.count - 1] = 10
+        let setInitialFP = build("li", ("r7", nil, nil, "\(Self.stackStartAddress)"))     // TODO: Set up proper caller of the main function.
+        let setTerminator = build("li", ("r0", nil, nil, "30")) + build("li", ("r1", nil, nil, "0")) + build("st", (nil, "r0", "r1", nil))
+        let setRetAddr = build("li", ("r1", nil, nil, "2047")) + build("st", (nil, "r1", "r0", nil))
+        let jumpToStart = build("jimm", (nil, nil, nil, "\(Self.programStartAddress)"))
+        let initProgram = setInitialFP + setTerminator + setRetAddr + jumpToStart
+        
+        for i in 0 ..< initProgram.count {
+            finalBuild[i] = initProgram[i]
+        }
+        
+        // --- EMIT INDICES IF REQUESTED ---
+        
+        if emitIndices {
+            
+            print("\nStarting index for each label")
+            
+            for (label, index) in labelIndices {
+                let indexString = "\(index)" + String(repeating: " ", count: max(1, 30 - "\(index)".count))
+                print(indexString + label)
+            }
+            
+            print("\n")
+            
+        }
         
         // --- RETURN ---
         
@@ -80,13 +105,10 @@ class Translator {
         /// We store the starting index of the current label, so it's ready for the second pass.
         labelIndices[name] = index
         
-        print("Label \(name)\t\t\(index)")
-        
     }
     
     
     func requestIndex(for label: String, at location: Int) {
-        print("\(label) @ \(location)")
         labelIndexRequests[location] = label
     }
     
