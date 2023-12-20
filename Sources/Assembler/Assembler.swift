@@ -16,7 +16,9 @@ class Assembler {
     
     func assemble(_ assembly: String, _ destPath: String) throws {
         
-        print("\tTime estimate: \(assembly.count / 300) s.")
+        if printStats {
+            print("\tTime estimate: \(assembly.count / 300) s.")
+        }
         
         let start = Foundation.DispatchTime.now().uptimeNanoseconds
         
