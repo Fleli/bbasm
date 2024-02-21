@@ -14,12 +14,12 @@ extension Assembler {
     }
     
     
-    func parse(_ tokens: [Token]) throws -> Labels {
+    func parse(_ tokens: [Token]) throws -> Statements {
         
         let parser = SLRParser()
         let tree = try parser.parse(tokens)
         
-        guard let converted = tree?.convertToLabels() else {
+        guard let converted = tree?.convertToStatements() else {
             fatalError("Conversion from raw `SLRNode` tree to `Labels` should not fail.")
         }
         
@@ -28,10 +28,10 @@ extension Assembler {
     }
     
     
-    func translate(_ labels: Labels) -> [Int] {
+    func translate(_ statements: Statements) -> [Int] {
         
         let translator = Translator()
-        let code = translator.translate(labels, emitIndices)
+        let code = translator.translate(statements, emitIndices)
         
         return code
         

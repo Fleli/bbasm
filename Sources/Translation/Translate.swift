@@ -23,7 +23,16 @@ extension Translator {
         case .argRegImmReg(let a):
             buildArgs = RIR(mnemonic, a.ra, a.imm, a.rb)
         case .argRegImm(let a):
-            buildArgs = RI(mnemonic, a.reg, a.imm)
+            
+            realInstruction = (mnemonic != "lidata")
+            
+            if realInstruction {
+                buildArgs = RI(mnemonic, a.reg, a.imm)
+            } else {
+                resolveDataSegmentReference(a.reg, a.imm, &finalBuild)
+            }
+            
+            
         case .argRegReg(let a):
             buildArgs = RR(mnemonic, a.ra, a.rb)
         case .argLabel(let a):
@@ -53,6 +62,19 @@ extension Translator {
         
         requestAndInsertReturnAddress(a.ret, &finalBuild)
         requestAndInsertJumpToEntry(a.callee, &finalBuild)
+        
+    }
+    
+    
+    private func resolveDataSegmentReference(_ register: String, _ imm: String, _ finalBuild: inout [Int]) {
+        
+        guard let imm = Int(imm) else {
+            fatalError("'\(imm)' is not an integer.")
+        }
+        
+        let dataSegmentAddress = String( (imm + Self.dataSegmentCurrentAddress) % (._16_bit_modulus) )
+        
+        translate(Instruction("li", Args.argRegImm(ArgRegImm(register, dataSegmentAddress))), &finalBuild)
         
     }
     

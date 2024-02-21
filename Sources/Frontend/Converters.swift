@@ -5,31 +5,6 @@
 
 public extension SLRNode {
     
-    func convertToLabels() -> Labels {
-        
-        if children.count == 0 {
-            return []
-        }
-        
-        if children.count == 1 {
-            return [children[0].convertToLabel()]
-        }
-        
-        if children.count == 2 {
-            return children[0].convertToLabels() + [children[1].convertToLabel()]
-        }
-        
-        if children.count == 3 {
-            return children[0].convertToLabels() + [children[2].convertToLabel()]
-        }
-        
-        fatalError()
-        
-    }
-    
-}
-public extension SLRNode {
-    
     func convertToInstructions() -> Instructions {
         
         if children.count == 0 {
@@ -53,6 +28,91 @@ public extension SLRNode {
     }
     
 }
+public extension SLRNode {
+    
+    func convertToWords() -> Words {
+        
+        if children.count == 0 {
+            return []
+        }
+        
+        if children.count == 1 {
+            return [children[0].convertToTerminal()]
+        }
+        
+        if children.count == 2 {
+            return children[0].convertToWords() + [children[1].convertToTerminal()]
+        }
+        
+        if children.count == 3 {
+            return children[0].convertToWords() + [children[2].convertToTerminal()]
+        }
+        
+        fatalError()
+        
+    }
+    
+}
+public extension SLRNode {
+    
+    func convertToStatements() -> Statements {
+        
+        if children.count == 0 {
+            return []
+        }
+        
+        if children.count == 1 {
+            return [children[0].convertToStatement()]
+        }
+        
+        if children.count == 2 {
+            return children[0].convertToStatements() + [children[1].convertToStatement()]
+        }
+        
+        if children.count == 3 {
+            return children[0].convertToStatements() + [children[2].convertToStatement()]
+        }
+        
+        fatalError()
+        
+    }
+    
+}
+public extension SLRNode {
+
+	func convertToStatement() -> Statement {
+		
+        if type == "Statement" && children[0].type == "Label" {
+            let nonTerminalNode = children[0].convertToLabel()
+            return Statement.label(nonTerminalNode)
+        }
+	
+        if type == "Statement" && children[0].type == "Data" {
+            let nonTerminalNode = children[0].convertToData()
+            return Statement.data(nonTerminalNode)
+        }
+	
+        fatalError()
+        
+    }
+
+}
+
+public extension SLRNode {
+
+	func convertToData() -> Data {
+		
+		if type == "Data" && children.count == 4 && children[0].type == "datasegment" && children[1].type == "{" && children[2].type == "Words" && children[3].type == "}" {
+			let arg2 = children[2].convertToWords()
+			return .init(arg2)
+		}
+		
+		fatalError()
+		
+	}
+
+}
+
 public extension SLRNode {
 
 	func convertToLabel() -> Label {

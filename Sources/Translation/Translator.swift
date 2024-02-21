@@ -5,6 +5,9 @@ class Translator {
     static let stackStartAddress = 2048
     static let programStartAddress = 4096
     
+    static let dataSegmentStartAddress = 7000
+    static var dataSegmentCurrentAddress = dataSegmentStartAddress
+    
     
     /// Provides a mapping between labels (as defined by the programmer) and their resulting index in the final list of instructions.
     private var labelIndices: [String : Int] = [:]
@@ -19,10 +22,26 @@ class Translator {
     
     
     /// Convert a list of `Label` objects to a well-defined executable array of `Int`s.
-    func translate(_ labels: Labels, _ emitIndices: Bool) -> [Int] {
+    func translate(_ statements: Statements, _ emitIndices: Bool) -> [Int] {
         
         // --- FIRST PASS ---
         // Translate textual statements (assembly code) to corresponding machine code.
+        
+        let data = statements.compactMap {
+            if case .data(let segment) = $0 {
+                return segment
+            } else {
+                return nil
+            }
+        }
+        
+        let labels = statements.compactMap {
+            if case .label(let label) = $0 {
+                return label
+            } else {
+                return nil
+            }
+        }
         
         for label in labels {
             
@@ -65,13 +84,29 @@ class Translator {
             finalBuild[i] = initProgram[i]
         }
         
+        // --- FILL IN DATA SECTION ---
+        
+        for dataGroup in data {
+            
+            for word in dataGroup.words {
+                
+                guard let int = Int(word) else {
+                    fatalError("Invalid data segment content '\(word)'.")
+                }
+                
+                includeData(int, in: &finalBuild)
+                
+            }
+            
+        }
+        
         // --- EMIT INDICES IF REQUESTED ---
         
         if emitIndices {
             
             print("\nStarting index for each label")
             
-            for (label, index) in labelIndices {
+            for (label, index) in labelIndices.sorted(by: {$0.value < $1.value}) {
                 let indexString = "\(index)" + String(repeating: " ", count: max(1, 30 - "\(index)".count))
                 print(indexString + label)
             }
@@ -110,6 +145,15 @@ class Translator {
     
     func requestIndex(for label: String, at location: Int) {
         labelIndexRequests[location] = label
+    }
+    
+    
+    func includeData(_ data: Int, in finalBuild: inout [Int]) {
+        
+        finalBuild[Self.dataSegmentCurrentAddress] = data
+        
+        Self.dataSegmentCurrentAddress += 1
+        
     }
     
     
