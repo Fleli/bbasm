@@ -27,12 +27,12 @@ ArgReg -> #register
 ArgLabel -> #label 
 ArgRegLabel -> #register #, #label 
 ArgLabelLabel -> #label #, #label 
-Instructions -> Instructions Instruction
-Instructions -> Instruction
-Instructions ->
-Words -> Words #literal
-Words -> #literal
-Words ->
 Statements -> Statements Statement
 Statements -> Statement
 Statements ->
+Words -> Words #literal
+Words -> #literal
+Words ->
+Instructions -> Instructions Instruction
+Instructions -> Instruction
+Instructions ->

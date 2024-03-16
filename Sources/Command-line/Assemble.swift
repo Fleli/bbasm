@@ -20,6 +20,8 @@ struct Assemble: ParsableCommand {
     
     func run() throws {
         
+        Swift.print("Start run")
+        
         let assembly = try String(contentsOfFile: srcPath)
         let assembler = Assembler(emitIndices, printStats)
         try assembler.assemble(assembly, destPath)

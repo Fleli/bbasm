@@ -1,6 +1,7 @@
 
 class Translator {
     
+    static let trapRequestAddress = 2000
     
     static let stackStartAddress = 2048
     static let programStartAddress = 4096

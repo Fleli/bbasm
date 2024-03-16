@@ -5,22 +5,22 @@
 
 public extension SLRNode {
     
-    func convertToInstructions() -> Instructions {
+    func convertToStatements() -> Statements {
         
         if children.count == 0 {
             return []
         }
         
         if children.count == 1 {
-            return [children[0].convertToInstruction()]
+            return [children[0].convertToStatement()]
         }
         
         if children.count == 2 {
-            return children[0].convertToInstructions() + [children[1].convertToInstruction()]
+            return children[0].convertToStatements() + [children[1].convertToStatement()]
         }
         
         if children.count == 3 {
-            return children[0].convertToInstructions() + [children[2].convertToInstruction()]
+            return children[0].convertToStatements() + [children[2].convertToStatement()]
         }
         
         fatalError()
@@ -55,22 +55,22 @@ public extension SLRNode {
 }
 public extension SLRNode {
     
-    func convertToStatements() -> Statements {
+    func convertToInstructions() -> Instructions {
         
         if children.count == 0 {
             return []
         }
         
         if children.count == 1 {
-            return [children[0].convertToStatement()]
+            return [children[0].convertToInstruction()]
         }
         
         if children.count == 2 {
-            return children[0].convertToStatements() + [children[1].convertToStatement()]
+            return children[0].convertToInstructions() + [children[1].convertToInstruction()]
         }
         
         if children.count == 3 {
-            return children[0].convertToStatements() + [children[2].convertToStatement()]
+            return children[0].convertToInstructions() + [children[2].convertToInstruction()]
         }
         
         fatalError()
