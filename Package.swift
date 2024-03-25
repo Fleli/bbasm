@@ -14,7 +14,7 @@ let package = Package(
         .executableTarget(
             name: "bbasm",
             dependencies: [
-                .product(name: "ArgumentParser", package: "swift-argument-parser")
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]
         ),
     ]

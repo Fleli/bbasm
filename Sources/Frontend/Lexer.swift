@@ -83,8 +83,6 @@ public class Lexer {
             return Token(content, content, region)
         }
         
-        print(content)
-        
         return Token(type, content, region)
         
     }

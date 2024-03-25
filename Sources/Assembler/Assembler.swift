@@ -22,11 +22,7 @@ class Assembler {
         
         let start = Foundation.DispatchTime.now().uptimeNanoseconds
         
-        Swift.print("Start lex")
-        
         let tokens = try lex(assembly)
-        
-        Swift.print("Start parse")
         
         let labels = try parse(tokens)
         let code = translate(labels)
