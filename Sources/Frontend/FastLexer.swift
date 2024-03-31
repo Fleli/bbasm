@@ -79,6 +79,7 @@ class FastLexer {
         } else if index <= input.count - String.dataSegmentInitializer.count  &&  input[index, index + String.dataSegmentInitializer.count] == String.dataSegmentInitializer {
             
             tokens.append( Token("datasegment", String.dataSegmentInitializer, .null) )
+            index += String.dataSegmentInitializer.count
             
         } else {
             
@@ -110,9 +111,9 @@ class FastLexer {
         let isNegative = (input[index] == "-")
         index = (isNegative) ? (index + 1) : (index)
         
-        let content = matchWhileSatisfied {
+        let content = (isNegative ? "-" : "") + matchWhileSatisfied {
             $0.isNumber
-        } + (isNegative ? "-" : "")
+        }
         
         return Token("literal", content, .null)
         

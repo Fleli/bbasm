@@ -6,7 +6,7 @@ extension Assembler {
     
     func lex(_ assembly: String) throws -> [Token] {
         
-        let lexer = Lexer()
+        let lexer = FastLexer()
         let tokens = try lexer.lex(assembly).filter { $0.type != "newline" && $0.type != "comment" }
         
         return tokens
